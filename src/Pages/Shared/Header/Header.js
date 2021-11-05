@@ -28,7 +28,7 @@ const Header = () => {
             <Link to="/appointment">
             <Button color="inherit">Appointment </Button>
             </Link>
-            <Link>
+            <Link to="/login">
             <Button color="inherit">Login</Button>
             </Link>
           </Toolbar>
