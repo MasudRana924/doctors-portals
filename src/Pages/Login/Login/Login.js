@@ -1,12 +1,13 @@
 import { Button, Container, Grid, TextField, Typography,Alert,CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useLocation ,useHistory} from 'react-router-dom';
 import login from '../../../images/login.png'
 import useAuth from './../../../Hooks/useAuth';
 
 const Login = () => {
  const [loginData,setLoginData]=useState({})
-
+ const location=useLocation()
+ const history=useHistory()
 const {user,loginUser,isLoading,error}=useAuth()
     const handleOnChange=e=>{
         const nameField=e.target.name
@@ -21,7 +22,7 @@ const {user,loginUser,isLoading,error}=useAuth()
     }
     const handleSubmit = e => {
 
-       loginUser(loginData.email,loginData.password)
+       loginUser(loginData.email,loginData.password,location,history)
 
         // page reload auto jeno na hoi
         e.preventDefault()
