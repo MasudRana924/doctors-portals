@@ -9,11 +9,13 @@ import Home from './Pages/Home/Home';
 import Appointment from './Pages/Appointment/Appointment';
 import Login from '../src/Pages/Login/Login/Login'
 import SiggnUp from './Pages/Login/SignUp/SiggnUp';
+import AuthProvider from './Context/AuthProvider';
 
 function App() {
   return (
     <div className="App">
-      <Router>
+     <AuthProvider>
+     <Router>
         <Switch>
         <Route  path="/appointment">
              <Appointment></Appointment>
@@ -32,6 +34,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+     </AuthProvider>
      
     </div>
   );

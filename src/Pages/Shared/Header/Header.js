@@ -6,9 +6,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import { Link,NavLink } from 'react-router-dom';
+import useAuth from './../../../Hooks/useAuth';
 
 const Header = () => {
+  const {user}=useAuth()
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
@@ -25,12 +27,17 @@ const Header = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Doctors Portal
             </Typography>
-            <Link to="/appointment">
+            <Link to="/appointment" style={{textDecoration:'none',color:'white'}}>
             <Button color="inherit">Appointment </Button>
             </Link>
-            <Link to="/login">
+            {user.email ? <NavLink to="/login" style={{textDecoration:'none',color:'white'}}>
+            <Button color="inherit">LogOut</Button>
+            </NavLink> : <NavLink to="/login" style={{textDecoration:'none',color:'white'}}>
             <Button color="inherit">Login</Button>
-            </Link>
+            </NavLink>
+
+            }
+           
           </Toolbar>
         </AppBar>
       </Box>
