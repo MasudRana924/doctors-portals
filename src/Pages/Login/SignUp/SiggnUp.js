@@ -1,15 +1,16 @@
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import login from '../../../images/login.png'
 
 const SiggnUp = () => {
 
     const [loginData, setLoginData] = useState({})
+    const history = useHistory()
 
     const { user, error, registerUser, isLoading } = useAuth()
-    const handleOnChange = e => {
+    const handleonBlur = e => {
         const nameField = e.target.name
         const nameValue = e.target.value
         // ager object er  sob value ... diye copy kora hoilo karon email r pass ekta te ekbar typehobe baki ta copy thakbe 
@@ -25,7 +26,7 @@ const SiggnUp = () => {
             alert('PassWord Does not matched')
             return
         }
-        registerUser(loginData.email, loginData.password)
+        registerUser(loginData.email, loginData.password,loginData.name,history)
         // page reload auto jeno na hoi
         e.preventDefault()
     }
@@ -40,14 +41,24 @@ const SiggnUp = () => {
                     {!isLoading && <form onSubmit={handleSubmit}>
                         <TextField
                             sx={{ width: '100%', m: 1 }}
+                            label="Your Name"
+                            variant="standard"
+                            color="primary"
+                            name="name"
+                            type="text"
+                            onBlur={handleonBlur}
+                            focused
+                        /> 
+                           <TextField
+                            sx={{ width: '100%', m: 1 }}
                             label="Your Email"
                             variant="standard"
                             color="primary"
                             name="email"
                             type="email"
-                            onChange={handleOnChange}
+                            onBlur={handleonBlur}
                             focused
-                        /> <br />
+                        />
                         <TextField
                             sx={{ width: '100%', m: 1 }}
                             label="Your Password"
@@ -55,7 +66,7 @@ const SiggnUp = () => {
                             color="primary"
                             type="password"
                             name="password"
-                            onChange={handleOnChange}
+                            onBlur={handleonBlur}
                             focused
                         />
                         <TextField
@@ -65,7 +76,7 @@ const SiggnUp = () => {
                             color="primary"
                             type="password"
                             name="password2"
-                            onChange={handleOnChange}
+                            onBlur={handleonBlur}
                             focused
                         />
 

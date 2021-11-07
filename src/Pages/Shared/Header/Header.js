@@ -10,7 +10,7 @@ import { Link, NavLink } from 'react-router-dom';
 import useAuth from './../../../Hooks/useAuth';
 
 const Header = () => {
-  const { user ,logOut} = useAuth()
+  const { user, logOut } = useAuth()
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -32,7 +32,13 @@ const Header = () => {
           </Link>
           {
             user?.email ?
-              <Button onClick={logOut} color="inherit">Logout</Button>
+              <Box>
+                <Link to="/dashboard" style={{ textDecoration: 'none', color: 'white' }}>
+                  <Button color="inherit">DashBoard </Button>
+                </Link>
+
+                <Button onClick={logOut} color="inherit">Logout</Button>
+              </Box>
               :
               <NavLink style={{ textDecoration: 'none', color: 'white' }} to="/login">
                 <Button color="inherit">Login</Button>

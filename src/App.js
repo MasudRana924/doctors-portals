@@ -11,6 +11,7 @@ import Login from '../src/Pages/Login/Login/Login'
 import SiggnUp from './Pages/Login/SignUp/SiggnUp';
 import AuthProvider from './Context/AuthProvider';
 import PrivateRoute from './Pages/Login/PrivateRoute/PrivateRoute';
+import DashBoard from './Pages/DashBoard/DashBoard/DashBoard';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
           <Route  path="/signup">
            <SiggnUp></SiggnUp>
           </Route>
+          <PrivateRoute  path="/dashboard">
+           <DashBoard></DashBoard>
+          </PrivateRoute>
         </Switch>
       </Router>
      </AuthProvider>
