@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import initializeAuthentication from './../Pages/Login/Firebase/firebase.init';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider,updateProfile  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider, updateProfile } from "firebase/auth";
 initializeAuthentication()
 const useFirebase = () => {
     const auth = getAuth();
@@ -8,42 +8,46 @@ const useFirebase = () => {
     const [user, setUser] = useState({})
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState('')
-     const googleProvider =new GoogleAuthProvider()
-    const googleSignin = (location,history) => {
+    const googleProvider = new GoogleAuthProvider()
+    const googleSignin = (location, history) => {
         setLoading(true)
         signInWithPopup(auth, googleProvider)
             .then((result) => {
                 const user = result.user;
+                saveUser(user.email,user.displayName,'PUT')
                 const destination = location?.state?.from || '/'
                 history.replace(destination)
                 setError('')
                 // ...
             }).catch((error) => {
-                setError(error.message)  
+                setError(error.message)
             })
             .finally(() => {
                 setLoading(false)
             })
             ;
     }
-    const registerUser = (email, password,name,history) => {
+    const registerUser = (email, password, name, history) => {
         setLoading(true)
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {              
-                setError('')      
-                const newUser={email,displayName:name} 
+            .then((userCredential) => {
+                setError('')
+                const newUser = { email, displayName: name }
                 setUser(newUser)
+                // save user in databse 
+                saveUser(email, name,'POST')
+                // send name to firebase after create 
                 updateProfile(auth.currentUser, {
-                    displayName:name
-                  }).then(() => {
-                    
-                  }).catch((error) => {
-                
-                  });
-                history.replace('/')      
+                    displayName: name
+                }).then(() => {
+
+                }).catch((error) => {
+
+                });
+                history.replace('/')
             })
             .catch((error) => {
-                setError(error.message)     
+                setError(error.message)
             })
             .finally(() => {
                 setLoading(false)
@@ -52,10 +56,10 @@ const useFirebase = () => {
     const loginUser = (email, password, location, history) => {
         setLoading(true)
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {             
+            .then((userCredential) => {
                 const destination = location?.state?.from || '/'
                 history.replace(destination)
-                setError('')       
+                setError('')
             })
             .catch((error) => {
                 setError(error.message)
@@ -80,15 +84,25 @@ const useFirebase = () => {
     const logOut = () => {
         setLoading(true)
         signOut(auth).then(() => {
-        }).catch((error) => {   
+        }).catch((error) => {
         })
             .finally(() => {
                 setLoading(false)
             });
-    }
 
+    }
+    // server e data rakhar jonno
+    const saveUser = (email, displayName,method) => {
+        const user = { email, displayName }
+        fetch('http://localhost:5000/users', {
+            method:method,
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(user)
+
+        })
+    }
     return {
-        user, registerUser, logOut, loginUser, isLoading, error,googleSignin
+        user, registerUser, logOut, loginUser, isLoading, error, googleSignin
     }
 
 }
