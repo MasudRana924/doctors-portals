@@ -16,26 +16,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button, Grid } from '@mui/material';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams,
-    useRouteMatch
+import {Link,Outlet
 } from "react-router-dom";
-import DashBoardHome from '../DashBoardHome/DashBoardHome';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
 import useAuth from '../../../Hooks/useAuth';
-import AdminRoute from '../../Login/AdminRoute/AdminRoute';
-import Payment from '../Payment/Payment';
+
+
 const drawerWidth = 200;
 function DashBoard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [date, setDate] = React.useState(new Date())
-    let { path, url } = useRouteMatch();
     const { admin } = useAuth()
 
     const handleDrawerToggle = () => {
@@ -48,13 +38,13 @@ function DashBoard(props) {
             <Divider />
             <Link to="/appointment" style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Appointment</Button></Link>
 
-            <Link to={`${url}`} style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Dashboard</Button></Link>
+            <Link to="/dashboard" style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Dashboard</Button></Link>
             {
                 admin && <Box>
 
-                    <Link to={`${url}/makeAdmin`} style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Make Admin</Button></Link>
+                    <Link to={`/dashboard/makeAdmin`} style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Make Admin</Button></Link>
 
-                    <Link to={`${url}/addDoctor`} style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Add Doctor</Button></Link>
+                    <Link to={`/dashboard/addDoctor`} style={{ textDecoration: 'none' }}><Button color="inherit" sx={{ width: '100%' }}>Add Doctor</Button></Link>
                 </Box>
             }
 
@@ -136,22 +126,8 @@ function DashBoard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Switch>
-                    <Route exact path={path}>
-                        <DashBoardHome></DashBoardHome>
-                    </Route>
-                    <Route path={`${path}/payment/:appointmentId`}>
-                            <Payment></Payment>      
-                    </Route>
-                    <AdminRoute path={`${path}/makeAdmin`}>
-                        <MakeAdmin></MakeAdmin>
-                    </AdminRoute>
-                    <AdminRoute path={`${path}/addDoctor`}>
-                        <AddDoctor></AddDoctor>
-                    </AdminRoute>
-
-
-                </Switch>
+                <Outlet></Outlet>
+               
 
             </Box >
         </Box >

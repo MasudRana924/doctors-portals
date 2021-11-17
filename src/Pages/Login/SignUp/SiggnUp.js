@@ -1,13 +1,13 @@
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Link,useHistory } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import login from '../../../images/login.png'
 
 const SiggnUp = () => {
 
     const [loginData, setLoginData] = useState({})
-    const history = useHistory()
+    const history = useNavigate()
 
     const { user, error, registerUser, isLoading } = useAuth()
     const handleonBlur = e => {
